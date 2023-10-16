@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 1 VUE 2</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <style>
+    .red{
+      color: red;
+    }
+    .black{
+      color: black;
+    }
+    .quote{
+      display: block;
+      justify-content: center;
+    }
+    p{
+      font-size: 20px;
+      font-weight: 600;
+    }
+    button{
+      font-size: 20px;
+      color: white;
+      width: 160px;
+      height: 80px;
+      margin: 20px;
+      background: blue;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="quote">
+        <input type="radio" v-model="isAuthor" name="author" value="exist"><label> Є автор</label>
+        <input type="radio" v-model="isAuthor" name="author" value=""><label>Немає автора</label>
+      <!-- {{isAuthor}} -->
+          <div v-for="qt in finallyQuote">
+            <p :class="qt.quote.length > 40 ? 'red' : 'black'">{{qt.quote}}</p>  
+            <p>{{qt.source}}</p>      
+          </div>
+        <button @click = "sortBySource()" >Сортування</button>
+          <div v-for="qt in sortedQuotes">
+            <p :class="qt.quote.length > 40 ? 'red' : 'black'">{{qt.quote}}</p>  
+            <p>{{qt.source}}</p>      
+          </div>
+
+        <button @click = "closeSort()" v-if ="isShowCloseButton">Закрити</button>
+        <a href="index2.html"><button>Vue 3</button></a>
+      </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

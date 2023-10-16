@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 1 VUE 3</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>   
+  <style>
+    .red{
+      color: red;
+    }
+    .black{
+      color: black;
+    }
+    .quote{
+      display: block;
+      justify-content: center;
+    }
+    p{
+      font-size: 20px;
+      font-weight: 600;
+    }
+    button{
+      font-size: 20px;
+      color: white;
+      width: 160px;
+      height: 80px;
+      margin: 20px;
+      background: blue;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="quote">
+      <input type="radio" v-model="isAuthor" name="author" value="exist"><label> Є автор</label>
+      <input type="radio" v-model="isAuthor" name="author" value=""><label>Немає автора</label>
+      <!-- {{isAuthor}} -->
+          <div v-for="qt in finallyQuote">
+            <p :class="qt.quote.length > 40 ? 'red' : 'black'">{{qt.quote}}</p>  
+            <p>{{qt.source}}</p>      
+          </div>
+        <button @click = "sortBySource()" >Сортування</button>
+          <div v-for="qt in sortedQuotes">
+            <p :class="qt.quote.length > 40 ? 'red' : 'black'">{{qt.quote}}</p>  
+            <p>{{qt.source}}</p>      
+          </div>
+
+        <button @click = "closeSort()" v-if ="isShowCloseButton" >Закрити</button>
+
+        <a href="index.html"><button>Vue 2</button></a>
+
+    </div>
+  </div>
+
+  <script>
+
+var quotesArray = [
+    {
+     "quote": "This is just a Quote1",
+     "source": "Christopher"
+    },
+    {
+     "quote": "This is just a Quote2",
+     "source": "Martin"
+    },
+    {
+     "quote": "This is just a Quote3",
+     "source": "Dennis"
+    },
+    {
+     "quote": "This is just a Quote4",
+     "source": ""
+    },
+]
+
+  const { createApp, ref, computed } = Vue;
+    createApp({
+      setup() {
+        const qoutes = ref(quotesArray)
+        const isAuthor = ref("")
+        const sortedQuotes = ref([])
+        const isShowCloseButton = ref("")
+
+        const finallyQuote = computed(() => {
+          return qoutes.value.filter(element => { 
+            return Boolean(isAuthor.value) == Boolean(element.source);
+          })
+        });
+        sortBySource = function() {
+          sortedQuotes.value = qoutes.value.sort((a, b) => (a.value > b.value) ? 1 : -1);
+          isShowCloseButton.value = true;
+        },
+        closeSort = function(){
+          sortedQuotes.value = [];
+          isShowCloseButton.value = false;
+        }
+        return {
+          qoutes,
+          isAuthor,
+          finallyQuote,
+          sortedQuotes,
+          sortBySource,
+          closeSort,
+          isShowCloseButton
+        }
+      }
+    }).mount('#app')
+
+  </script>
+</body>
+</html>
